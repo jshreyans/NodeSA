@@ -1,13 +1,41 @@
 const http = require('http');
-const bodyParser = require('body-parser');
+const fs = require('fs');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+const server = http.createServer((req,res,next) => {
+    const url = req.url;
+    const method = req.method;
+    if (url === '/') {
+        res.setHeader('Content-Type', 'html');
+        res.write('<html>');
+        res.write('<head><title> Input form </title> </head>');
+        res.write('<body><form action="/message" method="POST"><input type="text" name="message"> <button type="submit">Send</button></form></body>');
+        res.write('</html>');
+        return res.end();
+    }
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(adminRoutes);
-app.use(shopRoutes);
+    if (url === '/message' && method === 'POST') {
+        const body = [];
+        req.on('data', (chunk) => {
+            console.log(chunk);
+            body.push(chunk);
+        })
+        req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            console.log(parsedBody);
+            const message = parsedBody.split('=')[1];
+            fs.writeFileSync('message.txt', message);
+        });
 
-const server = http.createServer(app);
+        res.statusCode = 302;
+        res.setHeader('Location', '/')
+        return res.end();
+    }
+    res.setHeader('Content-Type', 'html');
+    res.write('<html>');
+    res.write('<head><title> First Node </title> </head>');
+    res.write('<body> <h1> Hello from Node.js </h1></body>');
+    res.write('</html>');
+    res.end();
+});
 
 server.listen(3000);
