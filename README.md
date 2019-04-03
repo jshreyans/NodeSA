@@ -6,5 +6,4 @@
   - Run `npm install`
 - Packages used:
   - Nodemon
-  - Webpack
   - Body-parser
