@@ -43,6 +43,7 @@ main {
 .main-header__item a {
   text-decoration: none;
   color: white;
+  transition: all 0.1s ease;
 }
 
 .main-header__item a:hover,
