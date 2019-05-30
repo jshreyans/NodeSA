@@ -12,6 +12,7 @@
         </div>
         <h2>Rs.<%= product.price %></h2>
         <p><%= product.description %></p>
+        <%- include('../includes/add-to-cart.ejs', {product: product}) %>
     </main>
 
 <%- include('../includes/end.ejs') %>

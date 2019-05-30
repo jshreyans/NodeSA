@@ -105,6 +105,7 @@ main {
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 8px;
 }
 
 .btn:hover,
