@@ -52,6 +52,10 @@ main {
   color: rgb(160, 159, 159);
 }
 
+.centered {
+  text-align: center;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
