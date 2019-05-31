@@ -29,7 +29,10 @@ module.exports = class Product {
   save() {
     getProductsFromFile(products => {
       if (this.id) {
-        const existingProductIndex = products.findIndex(prod => prod.id === this.id);
+        const existingProductIndex = products.findIndex(
+          prod => prod.id === this.id
+        );
+        console.log("product found");
         const updatedProducts = [...products];
         updatedProducts[existingProductIndex] = this;
         fs.writeFile(p, JSON.stringify(updatedProducts), err => {
@@ -37,6 +40,7 @@ module.exports = class Product {
         });
       } else {
         this.id = Math.random().toString();
+        console.log("new product saved");
         products.push(this);
         fs.writeFile(p, JSON.stringify(products), err => {
           console.log(err);

@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
+  console.log('add-product called');
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
@@ -12,6 +13,8 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  console.log('trying to add product');
+  
   const title = req.body.title;
   const imgURL = req.body.imgURL;
   const description = req.body.description;
@@ -26,8 +29,8 @@ exports.getEditProduct = (req, res, next) => {
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
-    console.log('failed in getEditProduct: product not found');
-    res.redirect("/");
+    console.log("failed in getEditProduct: product not found");
+    return res.redirect("/");
   }
   const prodID = req.params.productID;
   Product.findById(prodID, product => {
@@ -41,25 +44,31 @@ exports.getEditProduct = (req, res, next) => {
       formsCSS: true,
       productCSS: true,
       activeAddProduct: true,
-      product: product,
+      product: product
     });
   });
 };
 
-exports.postEditProduct = (req,res,next) => {
+exports.postEditProduct = (req, res, next) => {
   console.log("editing product!");
-  
+
   const productID = req.body.productID;
   const updatedTitle = req.body.title;
   const updatedimgURL = req.body.imgURL;
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
 
-  const updatedProduct = new Product(productID, updatedTitle, updatedimgURL, updatedDescription, updatedPrice);
+  const updatedProduct = new Product(
+    productID,
+    updatedTitle,
+    updatedimgURL,
+    updatedDescription,
+    updatedPrice
+  );
   updatedProduct.save();
-  console.log('product edited!');
+  console.log("product edited!");
   res.redirect("/admin/products");
-}
+};
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
