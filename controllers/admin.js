@@ -6,7 +6,8 @@ exports.getAddProduct = (req, res, next) => {
     path: "/admin/add-product",
     formsCSS: true,
     productCSS: true,
-    activeAddProduct: true
+    activeAddProduct: true,
+    editing: false
   });
 };
 
@@ -16,7 +17,7 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const price = req.body.price;
 
-  const product = new Product(title, imgURL, description, price);
+  const product = new Product(null, title, imgURL, description, price);
   product.save();
   res.redirect("/");
 };
@@ -25,18 +26,40 @@ exports.getEditProduct = (req, res, next) => {
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
+    console.log('failed in getEditProduct: product not found');
     res.redirect("/");
   }
-
-  res.render("admin/edit-product", {
-    pageTitle: "Edit Product",
-    path: "/admin/edit-product",
-    editing: true,
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true
+  const prodID = req.params.productID;
+  Product.findById(prodID, product => {
+    if (!product) {
+      return res.redirect("/");
+    }
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      editing: editMode,
+      formsCSS: true,
+      productCSS: true,
+      activeAddProduct: true,
+      product: product,
+    });
   });
 };
+
+exports.postEditProduct = (req,res,next) => {
+  console.log("editing product!");
+  
+  const productID = req.body.productID;
+  const updatedTitle = req.body.title;
+  const updatedimgURL = req.body.imgURL;
+  const updatedPrice = req.body.price;
+  const updatedDescription = req.body.description;
+
+  const updatedProduct = new Product(productID, updatedTitle, updatedimgURL, updatedDescription, updatedPrice);
+  updatedProduct.save();
+  console.log('product edited!');
+  res.redirect("/admin/products");
+}
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
