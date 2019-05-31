@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-  console.log('add-product called');
+  console.log("add-product called");
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
@@ -13,8 +13,8 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  console.log('trying to add product');
-  
+
+  console.log("posting new product");
   const title = req.body.title;
   const imgURL = req.body.imgURL;
   const description = req.body.description;
@@ -22,10 +22,13 @@ exports.postAddProduct = (req, res, next) => {
 
   const product = new Product(null, title, imgURL, description, price);
   product.save();
+  console.log("new product posted");
+
   res.redirect("/");
 };
 
 exports.getEditProduct = (req, res, next) => {
+  console.log('edit product called')
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
