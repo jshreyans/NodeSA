@@ -13,22 +13,29 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-
   console.log("posting new product");
   const title = req.body.title;
   const imgURL = req.body.imgURL;
   const description = req.body.description;
   const price = req.body.price;
 
-  const product = new Product(null, title, imgURL, description, price);
-  product.save();
-  console.log("new product posted");
+  const product = new Product(title, imgURL, description, price);
+  product
+    .save()
+    .then(result => {
+      console.log(result);
+      res.redirect('/admin/products')
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  // console.log("new product posted");
 
-  res.redirect("/");
+  // res.redirect("/");
 };
 
 exports.getEditProduct = (req, res, next) => {
-  console.log('edit product called')
+  console.log("edit product called");
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
@@ -73,11 +80,11 @@ exports.postEditProduct = (req, res, next) => {
   res.redirect("/admin/products");
 };
 
-exports.postDeleteProduct = (req,res,next) => {
+exports.postDeleteProduct = (req, res, next) => {
   const productID = req.body.productID;
   Product.deleteByID(productID);
   res.redirect("/admin/products");
-}
+};
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
