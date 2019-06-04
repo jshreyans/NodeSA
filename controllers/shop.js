@@ -66,26 +66,26 @@ exports.getCart = (req, res, next) => {
     });
 };
 
-exports.postCart = (req, res, next) => {
-  console.log(req.body);
-  const prodId = req.body.productID;
-  Product.findById(prodId, product => {
-    Cart.addProduct(prodId, product.price);
-  });
-  res.redirect("/cart");
-};
+// exports.postCart = (req, res, next) => {
+//   console.log(req.body);
+//   const prodId = req.body.productID;
+//   Product.findById(prodId, product => {
+//     Cart.addProduct(prodId, product.price);
+//   });
+//   res.redirect("/cart");
+// };
 
-exports.postDeleteCartProduct = (req, res, next) => {
-  const productID = req.body.productID;
-  console.log(productID);
+// exports.postDeleteCartProduct = (req, res, next) => {
+//   const productID = req.body.productID;
+//   console.log(productID);
 
-  Product.findById(productID, product => {
-    console.log(product);
-    Cart.deleteProduct(productID, product.price);
-    console.log("product deleted from cart");
-    res.redirect("/cart");
-  });
-};
+//   Product.findById(productID, product => {
+//     console.log(product);
+//     Cart.deleteProduct(productID, product.price);
+//     console.log("product deleted from cart");
+//     res.redirect("/cart");
+//   });
+// };
 
 exports.getOrders = (req, res, next) => {
   req.user
