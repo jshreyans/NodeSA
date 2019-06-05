@@ -15,7 +15,7 @@ module.exports = class Product {
     let dbInsertProduct;
     if (this._id) {
       // update product
-      db.collection("products").updateOne(
+      dbInsertProduct = db.collection("products").updateOne(
         { _id: new mongodb.ObjectId(this._id) },
         { $set: this }
       );

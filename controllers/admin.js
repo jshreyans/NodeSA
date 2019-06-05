@@ -38,7 +38,7 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
-    .them(products => {
+    .then(products => {
       res.render("admin/products", {
         prods: products,
         path: "/admin/products",
@@ -101,9 +101,9 @@ exports.postEditProduct = (req, res, next) => {
     .catch(err => {
       console.log(err);
     });
-  updatedProduct.save();
-  console.log("product edited!");
-  res.redirect("/admin/products");
+  // updatedProduct.save();
+  // console.log("product edited!");
+  // res.redirect("/admin/products");
 };
 
 // exports.postDeleteProduct = (req, res, next) => {
