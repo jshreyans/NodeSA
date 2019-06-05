@@ -95,7 +95,7 @@ exports.postEditProduct = (req, res, next) => {
   product
     .save()
     .then(result => {
-      console.log('PRODUCT UPDATED');
+      console.log("PRODUCT UPDATED");
       res.redirect("/admin/products");
     })
     .catch(err => {
@@ -106,8 +106,14 @@ exports.postEditProduct = (req, res, next) => {
   // res.redirect("/admin/products");
 };
 
-// exports.postDeleteProduct = (req, res, next) => {
-//   const productID = req.body.productID;
-//   Product.deleteByID(productID);
-//   res.redirect("/admin/products");
-// };
+exports.postDeleteProduct = (req, res, next) => {
+  const productID = req.body.productID;
+  Product.deleteByID(productID)
+    .then(result => {
+      console.log('PRODUCT REMOVED');
+      res.redirect("admin/products");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
