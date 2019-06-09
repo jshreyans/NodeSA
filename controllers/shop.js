@@ -66,14 +66,19 @@ exports.getCart = (req, res, next) => {
     });
 };
 
-// exports.postCart = (req, res, next) => {
-//   console.log(req.body);
-//   const prodId = req.body.productID;
-//   Product.findById(prodId, product => {
-//     Cart.addProduct(prodId, product.price);
-//   });
-//   res.redirect("/cart");
-// };
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productID;
+  Product.findById(prodId)
+    .then(result => {
+      return req.user.addToCart(result);
+    })
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
 
 // exports.postDeleteCartProduct = (req, res, next) => {
 //   const productID = req.body.productID;
@@ -91,11 +96,12 @@ exports.getOrders = (req, res, next) => {
   req.user
     .getOrders({ include: ["products"] })
     .then(orders => {
-      res,render("/shop/orders", {
-        orders: orders,
-        pageTitle: 'Your orders',
-        path: '/orders'
-      })
+      res,
+        render("/shop/orders", {
+          orders: orders,
+          pageTitle: "Your orders",
+          path: "/orders"
+        });
     })
     .catch(err => {
       console.log(err);
