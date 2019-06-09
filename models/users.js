@@ -53,9 +53,25 @@ module.exports = class User {
     const db = getDb();
     const productiDs = this.cart.items.map(i => {
       return i.productID;
-    })
-    db.collection("products").find({_id: {$in: []}});
-    return this.cart;
+    });
+    return db
+      .collection("products")
+      .find({ _id: { $in: productiDs } })
+      .toArray()
+      .then(products => {
+        return products.map(p => {
+          return {
+            ...p,
+            quantity: this.cart.items.find(i => {
+              return i.productID.toString() === p._id.toString();
+            }).quantity
+          };
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // return this.cart;
   }
 
   static findById(userId) {
