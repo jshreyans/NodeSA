@@ -24,16 +24,38 @@ module.exports = class User {
 
   addToCart(product) {
     // check if product is alredy present
-    const cartProduct = this.cart.items.findIndex(cp => {
-      return cp._id === product._id;
+    const cartProductIndex = this.cart.items.findIndex(cp => {
+      return cp.productID.toString() === product._id.toString();
     });
+
+    let quantity = 1;
+    const updatedCartItems = [...this.cart.items];
+
+    if (cartProductIndex >= 0) {
+      newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+      updatedCartItems[cartProductIndex].quantity = newQuantity;
+    } else {
+      updatedCartItems.push({
+        productID: new mongodb.ObjectId(product._id),
+        quantity: 1
+      });
+    }
     // new product to be added (cartProduct is false)
-    const updatedCart = { items: [{ ...product, quantity: 1 }] };
+    const updatedCart = { items: updatedCartItems };
     const db = getDb;
     db.collection("users").updateOne(
       { _id: new mongodb.ObjectId(this._id) },
       { $set: { cart: updatedCart } }
     );
+  }
+
+  getCart() {
+    const db = getDb();
+    const productiDs = this.cart.items.map(i => {
+      return i.productID;
+    })
+    db.collection("products").find({_id: {$in: []}});
+    return this.cart;
   }
 
   static findById(userId) {
