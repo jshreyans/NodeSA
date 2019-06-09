@@ -74,6 +74,36 @@ module.exports = class User {
     // return this.cart;
   }
 
+  deleteItemFromCart(productID) {
+    const updatedCartItems = this.cart.items.filter(item => {
+      return item.productID.toString() !== productID.toString();
+    });
+    const db = getDb();
+    db.collection("users").updateOne(
+      { _id: new mongodb.ObjectId(this._id) },
+      { $set: { cart: { items: updatedCartItems } } }
+    );
+  }
+
+  addOrder() {
+    const db = getDb();
+    return db
+      .collection("orders")
+      .insertOne(this.cart)
+      .then(result => {
+        this.cart = { items: [] };
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: new mongodb.ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   static findById(userId) {
     // find user by id
     const db = getDb;

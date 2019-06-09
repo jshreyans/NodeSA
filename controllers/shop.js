@@ -74,17 +74,19 @@ exports.postCart = (req, res, next) => {
     });
 };
 
-// exports.postDeleteCartProduct = (req, res, next) => {
-//   const productID = req.body.productID;
-//   console.log(productID);
+exports.postDeleteCartProduct = (req, res, next) => {
+  const productID = req.body.productID;
+  console.log(productID);
 
-//   Product.findById(productID, product => {
-//     console.log(product);
-//     Cart.deleteProduct(productID, product.price);
-//     console.log("product deleted from cart");
-//     res.redirect("/cart");
-//   });
-// };
+  reqq.user
+    .deleteItemFromCart()
+    .then((cart => {
+      res.redirect("/cart");
+    }))
+    .catch(err => {
+      console.log(err);
+    });
+};
 
 exports.getOrders = (req, res, next) => {
   req.user
