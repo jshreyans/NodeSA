@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const errorController = require("./controllers/error");
 const mongoConnect = require("./util/database").mongoConnect;
-const User = requrie("./models/users.js");
+const User = require("./models/users.js");
 
 const app = express();
 

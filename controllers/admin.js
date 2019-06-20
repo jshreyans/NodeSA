@@ -3,19 +3,16 @@ const Product = require("../models/product");
 const ObjectId = require("mongodb").ObjectId;
 
 exports.getAddProduct = (req, res, next) => {
-  console.log("add-product called");
+  console.log("[ADMIN CONTROLLER] add-product called");
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true,
     editing: false
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
-  console.log("posting new product");
+  console.log("[ADMIN CONTROLLER] posting new product");
   const title = req.body.title;
   const imgURL = req.body.imgURL;
   const description = req.body.description;
@@ -32,7 +29,7 @@ exports.postAddProduct = (req, res, next) => {
   product
     .save()
     .then(result => {
-      console.log(result);
+      console.log("[ADMIN CONTROLLER]", result);
       res.redirect("/admin/products");
     })
     .catch(err => {
@@ -58,11 +55,11 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
-  console.log("edit product called");
+  console.log("[ADMIN CONTROLLER] edit product called");
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
-    console.log("failed in getEditProduct: product not found");
+    console.log("[ADMIN CONTROLLER] failed in getEditProduct: product not found");
     return res.redirect("/");
   }
   const prodID = req.params.productID;
@@ -84,7 +81,7 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  console.log("editing product!");
+  console.log("[ADMIN CONTROLLER] editing product!");
 
   const productID = req.body.productID;
   const updatedTitle = req.body.title;
@@ -104,7 +101,7 @@ exports.postEditProduct = (req, res, next) => {
   product
     .save()
     .then(result => {
-      console.log("PRODUCT UPDATED");
+      console.log("[ADMIN CONTROLLER] PRODUCT UPDATED");
       res.redirect("/admin/products");
     })
     .catch(err => {
@@ -119,7 +116,7 @@ exports.postDeleteProduct = (req, res, next) => {
   const productID = req.body.productID;
   Product.deleteByID(productID)
     .then(result => {
-      console.log("PRODUCT REMOVED");
+      console.log("[ADMIN CONTROLLER] PRODUCT REMOVED");
       res.redirect("admin/products");
     })
     .catch(err => {

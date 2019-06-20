@@ -18,17 +18,17 @@ module.exports = class Product {
       // update product
       dbInsertProduct = db
         .collection("products")
-        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: this });
+        .updateOne({ _id: this._id }, { $set: this });
     } else {
       dbInsertProduct = db.collection("products").insertOne(this);
     }
     return dbInsertProduct
       .then(result => {
-        console.log("SUCCESS! from product");
+        console.log("[PRODUCT MODEL] SUCCESS!");
         console.log(result);
       })
       .catch(err => {
-        console.log("ERROR from product.js");
+        console.log("[PRODUCT MODEL] ERROR");
         console.log(err);
       });
   }
@@ -40,11 +40,11 @@ module.exports = class Product {
       .find()
       .toArray()
       .then(products => {
-        console.log(products);
+        console.log("[PRODUCT MODEL]", products);
         return products;
       })
       .catch(err => {
-        console.log("ERROR from fetchAll method - Product Model");
+        console.log("[PRODUCT MODEL] ERROR - fetchAll");
         console.log(err);
       });
   }
@@ -69,7 +69,7 @@ module.exports = class Product {
     db.collection("products")
       .deleteOne({ _id: new mongodb.ObjectId(prodId) })
       .then(product => {
-        console.log('deleted!');
+        console.log('[PRODUCT MODEL] deleted!');
       })
       .catch(err => {
         console.log(err);
