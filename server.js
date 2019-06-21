@@ -2,6 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const errorController = require("./controllers/error");
 const mongoConnect = require("./util/database").mongoConnect;
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   User.findById("5cf740650b47b442d87d7dfe")
     .then(user => {
-      req.user = new User(user.name, user.email, user.cart, user._id)
+      req.user = new User(user.name, user.email, user.cart, user._id);
       next();
     })
     .catch(err => {
@@ -34,6 +35,15 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://jshreyans:node-shop@node-shop-oiwo8.mongodb.net/shop?retryWrites=true&w=majority"
+  )
+  .then(result => {
+    console.log("<<<<<");
+    console.log("------------ CONNECTED -----------");
+    console.log(">>>>>");
+  })
+  .catch(err => {
+    console.log(err);
+  });

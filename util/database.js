@@ -9,9 +9,7 @@ const mongoConnect = callBack => {
     { useNewUrlParser: true }
   )
     .then(client => {
-      console.log("<<<<<");
-      console.log("------------ CONNECTED -----------");
-      console.log(">>>>>");
+      
       _db = client.db();
       callBack();
     })
