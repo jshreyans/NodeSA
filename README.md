@@ -1,6 +1,6 @@
 # Building a basic shopping app
 
-The webapp uses Express.js for the backend (API based) and a MongoDB database. EJS is used to serve views. 
+The webapp uses Express.js for the backend (API based) and EJS to serve views. 
 
 ### Connecting to MongoDB
 It uses MongoDB(Atlas) as the database. For a detailed guide on how to connect to a Mongo database, refer to these links:
@@ -18,6 +18,7 @@ It uses MongoDB(Atlas) as the database. For a detailed guide on how to connect t
     }
   }
   ```
+4. Run `npm run start` to start the dev server at `localhost:3000`
 
 ### To do:
 - [x] Make cart functional again
