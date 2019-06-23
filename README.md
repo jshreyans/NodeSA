@@ -1,6 +1,6 @@
 # Building a basic shopping app
 
-The webapp uses Express.js for the backend (API based) and EJS to serve views. 
+The webapp uses Express.js for the backend (API based) and [EJS](https://ejs.co/) to serve views. 
 
 ### Connecting to MongoDB
 It uses MongoDB(Atlas) as the database. For a detailed guide on how to connect to a Mongo database, refer to these links:
