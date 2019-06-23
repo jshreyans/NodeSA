@@ -8,11 +8,11 @@ const router = express.Router();
 
 // order of routes matters
 
-// router.get("/", shopController.getIndex);
+router.get("/", shopController.getIndex);
 
-// router.get("/products", shopController.getProducts);
+router.get("/products", shopController.getProducts);
 
-// router.get("/products/:productID", shopController.getProduct);
+router.get("/products/:productID", shopController.getProduct);
 
 // router.get("/cart", shopController.getCart);
 

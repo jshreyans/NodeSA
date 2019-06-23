@@ -18,16 +18,16 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const price = req.body.price;
 
-  const product = new Product(
-    title,
-    imgURL,
-    description,
-    price,
-    null,
-    req.user._id
-  );
+  // new Product created with mongoose
+  const product = new Product({
+    // pass values as defined in model
+    title: title,
+    price: price,
+    description: description,
+    imgURL: imgURL
+  });
   product
-    .save()
+    .save() // proided by mongoose, saves product to database
     .then(result => {
       console.log("[ADMIN CONTROLLER]", result);
       res.redirect("/admin/products");
@@ -59,7 +59,9 @@ exports.getEditProduct = (req, res, next) => {
   // using query parameters
   const editMode = req.query.editing;
   if (!editMode) {
-    console.log("[ADMIN CONTROLLER] failed in getEditProduct: product not found");
+    console.log(
+      "[ADMIN CONTROLLER] failed in getEditProduct: product not found"
+    );
     return res.redirect("/");
   }
   const prodID = req.params.productID;

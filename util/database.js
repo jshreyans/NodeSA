@@ -5,7 +5,7 @@ let _db;
 
 const mongoConnect = callBack => {
   MongoClient.connect(
-    "mongodb+srv://jshreyans:node-shop@node-shop-oiwo8.mongodb.net/shop?retryWrites=true&w=majority",
+    "mongodb+srv://jshreyans:" + process.env.MONGO_ATLAS_PW + "@node-shop-oiwo8.mongodb.net/shop?retryWrites=true&w=majority",
     { useNewUrlParser: true }
   )
     .then(client => {
